@@ -1,0 +1,599 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-sans:
+        'Roboto', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar-background);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+@layer utilities {
+    body,
+    html {
+        --font-sans:
+            'Roboto', ui-sans-serif, system-ui, sans-serif,
+            'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+            'Noto Color Emoji';
+    }
+}
+
+:root {
+    --background: #2B2358;
+    --foreground: hsl(0 0% 98%);
+    --card: transparent;
+    --card-foreground: hsl(0 0% 98%);
+    --popover: transparent;
+    --popover-foreground: hsl(0 0% 98%);
+    --primary: #FFB800;
+    --primary-foreground: hsl(0 0% 98%);
+    --secondary: #4A427B;
+    --secondary-foreground: hsl(0 0% 98%);
+    --muted: #4A427B;
+    --muted-foreground: hsl(0 0% 70%);
+    --accent: #4A427B;
+    --accent-foreground: hsl(0 0% 98%);
+    --destructive: hsl(0 84.2% 60.2%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: #4A427B;
+    --input: #4A427B;
+    --ring: #FFB800;
+    --chart-1: hsl(12 76% 61%);
+    --chart-2: hsl(173 58% 39%);
+    --chart-3: hsl(197 37% 24%);
+    --chart-4: hsl(43 74% 66%);
+    --chart-5: hsl(27 87% 67%);
+    --radius: 0.5rem;
+    --sidebar-background: transparent;
+    --sidebar-foreground: hsl(0 0% 98%);
+    --sidebar-primary: #FFB800;
+    --sidebar-primary-foreground: hsl(0 0% 98%);
+    --sidebar-accent: #4A427B;
+    --sidebar-accent-foreground: hsl(0 0% 98%);
+    --sidebar-border: #4A427B;
+    --sidebar-ring: #FFB800;
+    --sidebar: transparent;
+}
+
+.dark {
+    --background: #2B2358;
+    --foreground: hsl(0 0% 98%);
+    --card: hsl(0 0% 3.9%);
+    --card-foreground: hsl(0 0% 98%);
+    --popover: hsl(0 0% 3.9%);
+    --popover-foreground: hsl(0 0% 98%);
+    --primary: hsl(0 0% 98%);
+    --primary-foreground: hsl(0 0% 9%);
+    --secondary: hsl(0 0% 14.9%);
+    --secondary-foreground: hsl(0 0% 98%);
+    --muted: hsl(0 0% 16.08%);
+    --muted-foreground: hsl(0 0% 63.9%);
+    --accent: hsl(0 0% 14.9%);
+    --accent-foreground: hsl(0 0% 98%);
+    --destructive: hsl(0 84% 60%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: hsl(0 0% 14.9%);
+    --input: hsl(0 0% 14.9%);
+    --ring: hsl(0 0% 83.1%);
+    --chart-1: hsl(220 70% 50%);
+    --chart-2: hsl(160 60% 45%);
+    --chart-3: hsl(30 80% 55%);
+    --chart-4: hsl(280 65% 60%);
+    --chart-5: hsl(340 75% 55%);
+    --sidebar-background: hsl(0 0% 7%);
+    --sidebar-foreground: hsl(0 0% 95.9%);
+    --sidebar-primary: hsl(360, 100%, 100%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(0 0% 15.9%);
+    --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
+    --sidebar-border: hsl(0 0% 15.9%);
+    --sidebar-ring: hsl(217.2 91.2% 59.8%);
+    --sidebar: hsl(240 5.9% 10%);
+}
+
+@layer base {
+    * {
+        @apply border-border outline-ring/50;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+    select {
+        @apply bg-white text-[#080D6E] border-gray-300;
+    }
+    select:focus {
+        @apply border-primary ring-primary;
+    }
+    input {
+        @apply bg-white text-[#080D6E] border-gray-300;
+    }
+    input:focus {
+        @apply border-primary ring-primary;
+    }
+    .sidebar-group {
+        @apply px-4 py-2;
+    }
+.sidebar-menu-button {
+    @apply px-4 py-3 mx-2 rounded-lg;
+}
+
+.sidebar-provider {
+    background-color: #2B2358;
+    min-height: 100vh;
+    max-height: 1080px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-provider > div:first-child {
+    flex-shrink: 0;
+}
+
+.sidebar-provider > div:last-child {
+    flex: 1;
+    display: flex;
+    min-height: 0;
+    background-color: transparent; 
+    gap: 30px; 
+}
+
+.app-content {
+    flex: 1;
+}
+
+  [data-slot="sidebar-wrapper"] {
+      padding-left: 20px;
+      padding-right: 20px;
+  }
+
+  .table-header-text {
+      color: #080D6E;
+  }
+
+  [data-slot="sidebar-menu-item"] {
+      height: 83px;
+  }
+
+  [data-slot="sidebar-menu-item"] a{
+      height: 83px!important;
+  }
+
+    [data-slot="sidebar-menu-item"] a {
+        color: inherit !important;
+        border: none !important;
+        text-decoration: none !important;
+    }
+
+    [data-slot="sidebar-menu-item"] a[data-active="true"] {
+        background-color: rgba(255, 253, 253, 0.2) !important;
+        border-radius: 10px !important;
+    }
+
+    [data-slot="sidebar-menu-item"] a:hover {
+        background-color: rgba(255, 253, 253, 0.2) !important;
+        border-radius: 10px !important;
+        transition: 0.3s ease-in-out;
+    }
+
+    /* Убираем focus-visible обводку у ссылок в сайдбаре */
+    [data-slot="sidebar-menu-item"] a:focus-visible {
+        outline: none !important;
+        ring: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Фон для главного div сайдбара */
+    [data-sidebar="sidebar"] {
+        background-color: #FFFDFD33 !important;
+        padding: 0 !important;
+        border-radius: 10px !important;
+        max-height: calc(100vh - 200px) !important;
+        overflow-y: auto !important;
+    }
+
+    /* Убираем тень у sidebar-inset */
+    [data-slot="sidebar-inset"] {
+        --tw-shadow: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Убираем padding у пунктов сайдбара */
+    [data-slot="sidebar-menu-item"] {
+        padding: 0 !important;
+    }
+
+    /* Добавляем padding ссылкам в сайдбаре */
+    [data-slot="sidebar-menu-item"] a {
+        padding: 15px !important;
+    }
+
+    /* Убираем padding у sidebar-group */
+    [data-slot="sidebar-group"] {
+        padding: 0 !important;
+    }
+
+    .w-full.px-6.py-4 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    .rounded-xl,
+    .rounded-2xl,
+    .rounded-lg,
+    .rounded-md {
+        border-radius: 10px !important;
+    }
+
+    .filter-block {
+        background: rgba(255, 253, 253, 0.2) !important;
+        box-shadow: 0px 4px 4px 0px rgba(6, 18, 127, 0.25) !important;
+    }
+
+    .flex-tabs-block{
+        background: rgba(255, 253, 253, 0.3) !important;
+        border-radius: 10px !important;
+    }
+
+    .filter_file{
+        border-radius: 10px !important;
+    }
+
+    .filter_file{
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+    }
+
+    /* Стили для выпадающего меню пользователя */
+    [data-slot="dropdown-menu-content"] {
+        background-color: white !important;
+    }
+
+    [data-slot="dropdown-menu-content"] a,
+    [data-slot="dropdown-menu-content"] button,
+    [data-slot="dropdown-menu-content"] span {
+        color: black !important;
+    }
+
+    /* Увеличиваем размер иконки стрелки в кнопке пользователя */
+    [data-test="header-user-button"] svg {
+        width: 1.3em !important;
+        height: 1.3em !important;
+    }
+
+    /* Курсор pointer для всех ссылок и кнопок */
+    a, button {
+        cursor: pointer !important;
+    }
+
+    /* Убираем padding у главного блока настроек */
+    .flex-1.md\\:max-w-2xl .px-4.py-6 {
+        padding: 0 !important;
+    }
+
+    /* Gap 20px для секции с паролем в настройках */
+    .max-w-xl .space-y-6 {
+        gap: 20px !important;
+    }
+
+    /* Черный текст для кнопок в настройках */
+    .max-w-xl button[data-test="update-profile-button"],
+    .max-w-xl button[data-test="update-password-button"] {
+        color: black !important;
+    }
+
+    [data-slot="dropdown-menu-item"]:hover {
+        background-color: #FFB800 !important;
+        color: black !important;
+        transition: 0.3s ease-in-out;
+    }
+
+    .px-4.py-6 aside {
+        width: 25% !important;
+    }
+
+    .px-4.py-6 .flex-1 {
+        width: 75% !important;
+    }
+
+    [data-test="header-user-button"] svg {
+        width: 1.5em !important;
+        height: 1.5em !important;
+    }
+
+    [data-test="header-user-button"] [data-slot="avatar"] {
+        width: 2rem !important;
+        height: 2rem !important;
+    }
+
+    [data-test="header-user-button"] [data-slot="avatar-fallback"] {
+        font-size: 0.875rem !important;
+        background-color: #FFB800 !important;
+        color: white !important;
+    }
+    
+    [data-slot="avatar-fallback"] {
+        background-color: #FFB800 !important;
+        color: white !important;
+    }
+
+    [data-test="header-user-button"] {
+        background-color: rgba(255, 253, 253, 0.2) !important;
+    }
+
+    [data-test="header-user-button"]:hover {
+        background-color: rgba(255, 253, 253, 0.3) !important;
+        color: inherit !important;
+        transition: 0.3s ease-in-out;
+    }
+
+    [data-test="header-user-button"]:hover svg {
+        color: inherit !important;
+        transition: 0.3s ease-in-out;
+    }
+
+    [data-test="header-user-button"]:hover [data-slot="avatar-fallback"] {
+        color: inherit !important;
+        transition: 0.3s ease-in-out;
+    }
+
+    /* Кастомный селект с оранжевой стрелкой */
+    select {
+        appearance: none !important;
+        background-color: white !important;
+        border-radius: 20px !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FFB800' stroke-width='2'%3e%3cpath d='m7 15 5 5 5-5'/%3e%3c/svg%3e") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 12px top 0% !important;
+        background-size: 32px !important;
+        padding-right: 40px !important;
+    }
+
+    /* Стили для заголовков таблиц */
+    .table-header-container {
+        align-items: center;
+    }
+    
+    .table-header-container > div {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Стили для строк данных таблиц */
+    .table-row-spacing {
+        margin-top: 20px;
+    }
+
+    /* Стили для выравнивания элементов в строках данных */
+    .table-row-align {
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    /* Стили для разделителей в заголовках таблиц */
+    .table-header-dividers > div:not(:last-child) {
+        border-right: 2px solid rgba(0, 0, 0, 0.2);
+        padding-right: 1rem;
+    }
+
+    /* Зеленая тема - только замена фона главного контейнера */
+    .green-theme {
+        background-color: #042C45 !important;
+    }
+
+    .green-theme body {
+        background-color: #042C45 !important;
+    }
+
+    .green-theme .bg-background {
+        background-color: #042C45 !important;
+    }
+
+    .green-theme .bg-muted {
+        background-color: #FFFDFD33 !important;
+    }
+
+    .green-theme .bg-muted:hover {
+        background-color: #FFFDFD33 !important;
+    }
+
+    .green-theme .hover\:bg-accent:hover {
+        background-color: #FFFDFD33 !important;
+    }
+
+    /* Стили для логотипа АРМ */
+    .arm-logo {
+        box-shadow: 0px 4px 4px 0px rgba(6, 18, 127, 0.75);
+        background: rgba(255, 250, 250, 1);
+        padding: 4px 8px;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+    /* Синяя градиентная тема (теперь с поддержкой кастомного фона) */
+    /* Дефолтный фон применяется только если нет inline стилей и нет сохраненного фона */
+    .gradient-theme:not([data-custom-background]) {
+        background-image: url('/icons/gradient_bg.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .gradient-theme:not([data-custom-background]) body {
+        background-image: url('/icons/gradient_bg.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .gradient-theme:not([data-custom-background]) .bg-background,
+    .gradient-theme:not([data-custom-background]) [data-slot="sidebar-inset"],
+    .gradient-theme:not([data-custom-background]) .app-content,
+    .gradient-theme:not([data-custom-background]) main[data-slot="sidebar-inset"] {
+        background-image: url('/icons/gradient_bg.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    
+    /* Когда задан кастомный фон через атрибут, CSS фон не применяется */
+    .gradient-theme[data-custom-background] {
+        background-image: none !important;
+    }
+
+    .gradient-theme[data-custom-background] body {
+        background-image: none !important;
+    }
+
+    .gradient-theme[data-custom-background] .bg-background,
+    .gradient-theme[data-custom-background] [data-slot="sidebar-inset"],
+    .gradient-theme[data-custom-background] .app-content,
+    .gradient-theme[data-custom-background] main[data-slot="sidebar-inset"],
+    .gradient-theme[data-custom-background] [data-sidebar="sidebar"],
+    .gradient-theme[data-custom-background] [data-slot="sidebar-wrapper"],
+    .gradient-theme[data-custom-background] [data-slot="sidebar-content"] {
+        background-image: none !important;
+        background-color: transparent !important;
+    }
+    
+    /* Возвращаем полупрозрачный фон сайдбара при кастомном фоне */
+    .gradient-theme[data-custom-background] [data-sidebar="sidebar"] {
+        background-color: rgba(255, 253, 253, 0.2) !important;
+    }
+
+    .gradient-theme .bg-muted {
+        background-color: rgba(255, 253, 253, 0.2) !important;
+    }
+
+    .gradient-theme .bg-muted:hover {
+        background-color: rgba(255, 253, 253, 0.3) !important;
+    }
+
+    .gradient-theme .hover\:bg-accent:hover {
+        background-color: rgba(255, 253, 253, 0.3) !important;
+    }
+
+    /* Полупрозрачные кнопки для синей градиентной темы */
+    .gradient-theme button[style*="rgba(255, 253, 253, 0.2)"] {
+        background-color: rgba(255, 253, 253, 0.2) !important;
+    }
+
+    .gradient-theme button[style*="rgba(255, 253, 253, 0.2)"]:hover {
+        background-color: rgba(255, 253, 253, 0.3) !important;
+    }
+
+    .gradient-theme button[style*="rgba(255, 253, 253, 0.3)"] {
+        background-color: rgba(255, 253, 253, 0.3) !important;
+    }
+
+    .gradient-theme button[style*="rgba(255, 253, 253, 0.3)"]:hover {
+        background-color: rgba(255, 253, 253, 0.4) !important;
+    }
+
+    /* Общие стили для полупрозрачных элементов */
+    .gradient-theme .bg-white\/10 {
+        background-color: rgba(255, 253, 253, 0.1) !important;
+    }
+
+    .gradient-theme .bg-white\/20 {
+        background-color: rgba(255, 253, 253, 0.2) !important;
+    }
+
+    .gradient-theme .bg-white\/30 {
+        background-color: rgba(255, 253, 253, 0.3) !important;
+    }
+
+    /* Кастомные размеры для иконки АРМ */
+    .size-18 {
+        width: 4.5rem !important;
+        height: 4.5rem !important;
+    }
+
+    .size-16 {
+        width: 4rem !important;
+        height: 4rem !important;
+    }
+
+    .size-10 {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+    }
+
+    .h-18 {
+        height: 4.5rem !important;
+    }
+
+    .w-18 {
+        width: 4.5rem !important;
+    }
+}
