@@ -127,7 +127,6 @@ const closeDetailModal = () => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl">
-            <!-- Фильтры -->
             <div class="grid gap-4 rounded-xl p-4 filter-block mb-4">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
@@ -165,11 +164,9 @@ const closeDetailModal = () => {
                 </div>
             </div>
 
-            <!-- Таблица данных -->
             <div class="flex-1 rounded-xl border-gray-400 overflow-hidden">
                 <div class="overflow-x-auto">
                     <div>
-                        <!-- Заголовок таблицы -->
                         <div class="bg-[#FFB800] rounded-2xl px-4 py-3">
                             <div class="grid grid-cols-10 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
                                 <div>№ п/п (шифр)</div>
@@ -185,7 +182,6 @@ const closeDetailModal = () => {
                             </div>
                         </div>
                         
-                        <!-- Строки данных -->
                         <div v-if="props.activeList.data.length === 0" class="text-center py-8 text-white">
                             Нет данных для отображения
                         </div>
@@ -216,7 +212,6 @@ const closeDetailModal = () => {
             </div>
         </div>
 
-        <!-- Модальное окно детальной информации -->
         <ActiveListItemDetailModal 
             :is-open="isDetailModalOpen"
             :item="detailModalItem"

@@ -109,10 +109,15 @@ const submitForm = () => {
     }
 };
 
-const deleteItem = (itemId: number) => {
-    if (confirm('Вы уверены, что хотите удалить эту запись?')) {
-        form.delete(`/cost/${itemId}`, {
+const deleteItem = () => {
+    if (!selectedItemId.value) return;
+    const item = props.costs?.data.find(i => i.id === selectedItemId.value);
+    const itemName = item?.year || 'эту запись';
+    
+    if (confirm(`Вы уверены, что хотите удалить запись за ${itemName} год?`)) {
+        form.delete(`/cost/${selectedItemId.value}`, {
             onSuccess: () => {
+                selectedItemId.value = null;
             },
         });
     }
@@ -153,15 +158,25 @@ const formatNumber = (value: number | null | undefined): string => {
                     <PencilIcon class="w-5 h-5" />
                     РЕДАКТИРОВАТЬ
                 </button>
+                <button 
+                    @click="deleteItem"
+                    :disabled="!selectedItemId"
+                    :class="[
+                        'flex-1 min-h-[83px] rounded-xl px-4 py-3 text-white font-medium flex items-center justify-center gap-2',
+                        selectedItemId ? 'cursor-pointer hover:opacity-90' : 'opacity-50 cursor-not-allowed'
+                    ]"
+                    style="background-color: rgba(220, 38, 38, 0.2);"
+                >
+                    <TrashIcon class="w-6 h-6 sm:w-8 sm:h-8 text-[#FFB800]" />
+                    <span class="hidden sm:inline">УДАЛИТЬ</span>
+                </button>
             </div>
 
-            <!-- Таблица -->
             <div class="flex-1 rounded-xl border-gray-400 overflow-hidden">
                 <div class="overflow-x-auto">
                     <div>
-                        <!-- Заголовок таблицы -->
                         <div class="bg-[#FFB800] rounded-2xl px-4 py-3 sticky top-0 z-10">
-                            <div class="grid gap-4 font-semibold table-header-text table-header-container table-header-dividers" style="grid-template-columns: 80px repeat(7, 1fr) 300px;">
+                            <div class="grid gap-4 font-semibold table-header-text table-header-container table-header-dividers" style="grid-template-columns: 80px repeat(7, 1fr);">
                                 <div>Год</div>
                                 <div>Среднемесячная заработная плата</div>
                                 <div>Коэффициент, учитывающий объем документа</div>
@@ -170,7 +185,6 @@ const formatNumber = (value: number | null | undefined): string => {
                                 <div>Прибыль Q(п)</div>
                                 <div>Прочие расходы организации-исполнителя(Qпр)</div>
                                 <div>Стоимость одного отзыва (Сп)</div>
-                                <div>Действия</div>
                             </div>
                         </div>
                         
@@ -189,7 +203,7 @@ const formatNumber = (value: number | null | undefined): string => {
                                 ]"
                                 class="rounded-2xl px-4 py-3 table-row-spacing mb-3 cursor-pointer transition-all"
                             >
-                                <div class="grid gap-4 text-[#080D6E] table-row-align" style="grid-template-columns: 80px repeat(7, 1fr) 300px;">
+                                <div class="grid gap-4 text-[#080D6E] table-row-align" style="grid-template-columns: 80px repeat(7, 1fr);">
                                     <div>{{ item.year }}</div>
                                     <div>{{ formatNumber(item.average_monthly_salary) }}</div>
                                     <div>{{ formatNumber(item.document_volume_coefficient) }}</div>
@@ -198,18 +212,6 @@ const formatNumber = (value: number | null | undefined): string => {
                                     <div>{{ formatNumber(item.profit_qp) }}</div>
                                     <div>{{ formatNumber(item.other_expenses_qpr) }}</div>
                                     <div>{{ formatNumber(item.review_cost_sp) }}</div>
-                                    <div>
-                                        <div class="flex gap-2 justify-center">
-                                            <button 
-                                                @click.stop="deleteItem(item.id)"
-                                                class="bg-[#FFB800] text-white rounded hover:bg-[#E6A600] transition-colors flex items-center justify-center gap-2 text-center whitespace-nowrap"
-                                                style="font-size: 0.975rem; padding: 0.325rem 0.975rem;"
-                                            >
-                                                <TrashIcon class="w-5 h-5 text-black" />
-                                                Удалить
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -218,7 +220,6 @@ const formatNumber = (value: number | null | undefined): string => {
             </div>
         </div>
 
-        <!-- Модальное окно добавления/редактирования -->
         <div 
             v-if="isAddModalOpen || isEditModalOpen" 
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
@@ -241,7 +242,6 @@ const formatNumber = (value: number | null | undefined): string => {
                 </div>
 
                 <form @submit.prevent="submitForm" class="space-y-4">
-                    <!-- Год -->
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Год *</label>
                         <input 
@@ -255,7 +255,6 @@ const formatNumber = (value: number | null | undefined): string => {
                         <div v-if="form.errors.year" class="text-red-500 text-sm mt-1">{{ form.errors.year }}</div>
                     </div>
 
-                    <!-- Среднемесячная заработная плата -->
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Среднемесячная заработная плата</label>
                         <input 
@@ -269,7 +268,6 @@ const formatNumber = (value: number | null | undefined): string => {
                         <div v-if="form.errors.average_monthly_salary" class="text-red-500 text-sm mt-1">{{ form.errors.average_monthly_salary }}</div>
                     </div>
 
-                    <!-- Коэффициент, учитывающий объем документа -->
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Коэффициент, учитывающий объем документа</label>
                         <input 
@@ -283,7 +281,6 @@ const formatNumber = (value: number | null | undefined): string => {
                         <div v-if="form.errors.document_volume_coefficient" class="text-red-500 text-sm mt-1">{{ form.errors.document_volume_coefficient }}</div>
                     </div>
 
-                    <!-- Обязательные платежи (Qн) -->
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Обязательные платежи (Qн)</label>
                         <input 
@@ -297,7 +294,6 @@ const formatNumber = (value: number | null | undefined): string => {
                         <div v-if="form.errors.mandatory_payments_qn" class="text-red-500 text-sm mt-1">{{ form.errors.mandatory_payments_qn }}</div>
                     </div>
 
-                    <!-- Накладные расходы организации-исполнителя(Qнр) -->
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Накладные расходы организации-исполнителя(Qнр)</label>
                         <input 
@@ -311,7 +307,6 @@ const formatNumber = (value: number | null | undefined): string => {
                         <div v-if="form.errors.overhead_costs_qnr" class="text-red-500 text-sm mt-1">{{ form.errors.overhead_costs_qnr }}</div>
                     </div>
 
-                    <!-- Прибыль Q(п) -->
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Прибыль Q(п)</label>
                         <input 
@@ -325,7 +320,6 @@ const formatNumber = (value: number | null | undefined): string => {
                         <div v-if="form.errors.profit_qp" class="text-red-500 text-sm mt-1">{{ form.errors.profit_qp }}</div>
                     </div>
 
-                    <!-- Прочие расходы организации-исполнителя(Qпр) -->
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Прочие расходы организации-исполнителя(Qпр)</label>
                         <input 
@@ -339,7 +333,6 @@ const formatNumber = (value: number | null | undefined): string => {
                         <div v-if="form.errors.other_expenses_qpr" class="text-red-500 text-sm mt-1">{{ form.errors.other_expenses_qpr }}</div>
                     </div>
 
-                    <!-- Стоимость одного отзыва (Сп) -->
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Стоимость одного отзыва (Сп)</label>
                         <input 

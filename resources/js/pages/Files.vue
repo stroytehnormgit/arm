@@ -242,10 +242,8 @@ const submitUpload = () => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl min-h-0">
-            <!-- Панель управления файлами -->
             <div class="grid gap-4 rounded-xl mb-4">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
-                    <!-- Поля ввода -->
                     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:col-span-2 filter-block p-4  filter_file">
                         <div>
                             <label class="block text-sm font-medium mb-2">Наименование</label>
@@ -267,7 +265,6 @@ const submitUpload = () => {
                         </div>
                     </div>
                     
-                    <!-- Кнопки действий -->
                     <div class="flex gap-4 md:col-span-2">
                         <button 
                             @click="openUploadModal"
@@ -285,7 +282,6 @@ const submitUpload = () => {
                 </div>
             </div>
 
-            <!-- Табы переключатели -->
             <div class="flex gap-2 mb-4 flex-tabs-block">
                 <button 
                     v-for="tab in tabs" 
@@ -302,11 +298,9 @@ const submitUpload = () => {
                 </button>
             </div>
 
-            <!-- Список файлов -->
             <div class="flex-1 rounded-xl border-gray-400 overflow-hidden flex flex-col min-h-0">
                 <div class="overflow-y-auto overflow-x-auto flex-1">
                     <div>
-                        <!-- Заголовок таблицы -->
                         <div class="bg-[#FFB800] rounded-2xl px-4 py-3 sticky top-0 z-10">
                             <div v-if="activeTab === 'uploaded'" class="grid grid-cols-6 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
                                 <div>Дата</div>
@@ -327,7 +321,6 @@ const submitUpload = () => {
                             </div>
                         </div>
                         
-                        <!-- Строки данных -->
                         <div v-if="activeTab === 'uploaded'">
                             <div v-if="getUploadedFiles().length === 0" class="text-center py-8 text-white">
                                 Нет данных для отображения
@@ -395,7 +388,6 @@ const submitUpload = () => {
             </div>
         </div>
 
-        <!-- Модальное окно загрузки файла на stn.by -->
         <div 
             v-if="isUploadModalOpen" 
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4" 
@@ -405,7 +397,6 @@ const submitUpload = () => {
                 class="bg-white rounded-2xl p-6 max-w-2xl w-full max-h-[95vh] overflow-y-auto shadow-2xl" 
                 @click.stop
             >
-                <!-- Заголовок -->
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-[#080D6E] text-xl font-bold">
                         Загрузка файла на stn.by
@@ -418,9 +409,7 @@ const submitUpload = () => {
                     </button>
                 </div>
 
-                <!-- Форма -->
                 <form @submit.prevent="submitUpload" class="space-y-4">
-                    <!-- Проект -->
                     <div>
                         <label class="block text-sm font-medium text-[#080D6E] mb-2">
                             Проект <span class="text-red-500">*</span>
@@ -448,7 +437,6 @@ const submitUpload = () => {
                         </div>
                     </div>
 
-                    <!-- Тип файла -->
                     <div>
                         <label class="block text-sm font-medium text-[#080D6E] mb-2">
                             Тип файла <span class="text-red-500">*</span>
@@ -476,7 +464,6 @@ const submitUpload = () => {
                         </div>
                     </div>
 
-                    <!-- Файл -->
                     <div>
                         <label class="block text-sm font-medium text-[#080D6E] mb-2">
                             Файл (PDF, макс. 10MB) <span class="text-red-500">*</span>
@@ -496,7 +483,6 @@ const submitUpload = () => {
                         </div>
                     </div>
 
-                    <!-- Кнопки -->
                     <div class="flex gap-4 pt-4">
                         <button 
                             type="submit"

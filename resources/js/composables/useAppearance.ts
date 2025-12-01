@@ -77,6 +77,7 @@ export function applyCustomBackground(backgroundUrl: string) {
                 element.style.setProperty('background-repeat', 'no-repeat', 'important');
                 element.style.setProperty('background-attachment', 'fixed', 'important');
                 element.style.setProperty('background-color', 'transparent', 'important');
+                element.style.setProperty('position', 'relative', 'important');
             }
         });
         

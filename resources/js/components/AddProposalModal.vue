@@ -885,6 +885,9 @@ const saveCostDetails = () => {
                                 <option value="разработка с неидентичной степенью соответствия">разработка с неидентичной степенью соответствия</option>
                                 <option value="проверка научно-технического уровня">проверка научно-технического уровня</option>
                             </select>
+                            <div v-if="currentDevelopmentTypeCoefficient > 0" class="mt-2 text-sm text-[#080D6E] bg-[#FFB800] bg-opacity-10 px-3 py-2 rounded-lg">
+                                <strong>Коэффициент:</strong> {{ currentDevelopmentTypeCoefficient }}
+                            </div>
                         </div>
                         <div>
                             <label class="block text-[#080D6E] text-sm font-medium mb-2">Количество страниц</label>

@@ -65,6 +65,11 @@ const mainNavItems = computed(() => [
             href: '/stages',
             icon: StagesIcon,
         },
+        {
+            title: 'Журнал действий',
+            href: '/activity-log',
+            icon: UsersIcon, // Можно создать отдельную иконку позже
+        },
     ] : []),
 ]);
 

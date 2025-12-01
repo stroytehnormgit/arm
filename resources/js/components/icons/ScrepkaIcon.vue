@@ -1,5 +1,5 @@
 <template>
-    <SvgIcon src="/icons/screpka.svg" alt="Файлы" />
+    <SvgIcon src="/icons/screpka.png" alt="Файлы" />
 </template>
 
 <script setup lang="ts">

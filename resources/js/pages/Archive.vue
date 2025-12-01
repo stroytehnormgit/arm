@@ -157,16 +157,12 @@ watch(() => props.activeYear, (newYear) => {
                 </div>
             </div>
 
-            <!-- Блок с табами по годам, стрелками и кнопками -->
             <div class="flex items-center justify-between gap-4 mb-4 w-full">
-                <!-- Левая часть: стрелки и табы -->
                 <div class="flex items-center gap-4 flex-1">
-                    <!-- Стрелка влево -->
                     <button @click="navigateYears('left')" class="w-12 h-12 rounded-full bg-[#FFB800] flex items-center justify-center flex-shrink-0 hover:bg-[#E6A600] transition-colors">
                         <ArrowLeftIcon className="w-6 h-6" style="color: #4A427B;" />
                     </button>
                     
-                    <!-- Табы по годам -->
                     <div class="flex gap-2 flex-1">
                         <button 
                             v-for="tab in yearTabs" 
@@ -184,13 +180,11 @@ watch(() => props.activeYear, (newYear) => {
                         </button>
                     </div>
                     
-                    <!-- Стрелка вправо -->
                     <button @click="navigateYears('right')" class="w-12 h-12 rounded-full bg-[#FFB800] flex items-center justify-center flex-shrink-0 hover:bg-[#E6A600] transition-colors">
                         <ArrowRightIcon className="w-6 h-6" style="color: #4A427B;" />
                     </button>
                 </div>
 
-                <!-- Правая часть: кнопка скачать файл -->
                 <div class="flex gap-4">
                     <button class="px-6 py-3 rounded-xl text-white font-medium flex items-center justify-center gap-2" style="background-color: rgba(255, 253, 253, 0.2);height: 83px; max-width: 330px; width: 330px;">
                         <DownloadIcon class="w-5 h-5" />
@@ -199,11 +193,9 @@ watch(() => props.activeYear, (newYear) => {
                 </div>
             </div>
 
-            <!-- Архивные записи -->
             <div class="flex-1 rounded-xl border-gray-400 overflow-hidden">
                 <div class="overflow-x-auto">
                     <div>
-                        <!-- Заголовок таблицы -->
                         <div class="bg-[#FFB800] rounded-2xl px-4 py-3">
                             <div class="grid grid-cols-9 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
                                 <div>№ п/п (шифр)</div>
@@ -218,7 +210,6 @@ watch(() => props.activeYear, (newYear) => {
                             </div>
                         </div>
                         
-                        <!-- Строки данных -->
                         <div v-if="props.archives.data.length === 0" class="text-center py-8 text-white">
                             Нет данных для отображения
                         </div>

@@ -8,11 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Spatie\Permission\Traits\HasRoles;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, HasRoles, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -51,5 +53,24 @@ class User extends Authenticatable
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Настройка логирования активности
+     * ВАЖНО: пароли не логируются!
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'block_rank', 'department'])
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->dontLogIfAttributesChangedOnly(['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes'])
+            ->setDescriptionForEvent(fn(string $eventName) => match($eventName) {
+                'created' => 'Создан пользователь',
+                'updated' => 'Обновлен пользователь',
+                'deleted' => 'Удален пользователь',
+                default => "Действие с пользователем: {$eventName}",
+            });
     }
 }

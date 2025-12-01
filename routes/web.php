@@ -8,6 +8,7 @@ use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\StagesController;
 use App\Http\Controllers\CostController;
+use App\Http\Controllers\ActivityLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -72,6 +73,8 @@ Route::get('stages', [StagesController::class, 'index'])->middleware(['auth', 'v
 Route::post('stages', [StagesController::class, 'store'])->middleware(['auth', 'verified']);
 Route::put('stages/{stage}', [StagesController::class, 'update'])->middleware(['auth', 'verified']);
 Route::delete('stages/{stage}', [StagesController::class, 'destroy'])->middleware(['auth', 'verified']);
+
+Route::get('activity-log', [ActivityLogController::class, 'index'])->middleware(['auth', 'verified'])->name('activity-log');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

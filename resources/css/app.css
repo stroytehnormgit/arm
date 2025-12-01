@@ -9,7 +9,7 @@
 
 @theme inline {
     --font-sans:
-        'Roboto', ui-sans-serif, system-ui, sans-serif,
+        'Montserrat', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
 
@@ -75,7 +75,7 @@
     body,
     html {
         --font-sans:
-            'Roboto', ui-sans-serif, system-ui, sans-serif,
+            'Montserrat', ui-sans-serif, system-ui, sans-serif,
             'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
             'Noto Color Emoji';
     }
@@ -252,6 +252,31 @@
         border-radius: 10px !important;
         max-height: calc(100vh - 200px) !important;
         overflow-y: auto !important;
+    }
+
+    /* Кастомизация скроллбара в сайдбаре - желтый цвет */
+    [data-sidebar="sidebar"]::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    [data-sidebar="sidebar"]::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+
+    [data-sidebar="sidebar"]::-webkit-scrollbar-thumb {
+        background: #FFB800;
+        border-radius: 10px;
+    }
+
+    [data-sidebar="sidebar"]::-webkit-scrollbar-thumb:hover {
+        background: #E6A600;
+    }
+
+    /* Для Firefox */
+    [data-sidebar="sidebar"] {
+        scrollbar-width: thin;
+        scrollbar-color: #FFB800 rgba(255, 255, 255, 0.1);
     }
 
     /* Убираем тень у sidebar-inset */

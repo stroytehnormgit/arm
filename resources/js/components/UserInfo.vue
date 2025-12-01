@@ -29,7 +29,7 @@ const showAvatar = computed(
     </Avatar>
 
     <div class="grid flex-1 text-left text-xs leading-tight items-center">
-        <span class="truncate font-semibold text-[#080D6E]">{{ user.name }}</span>
-        <span v-if="showEmail" class="truncate text-[11px] text-muted-foreground">{{ user.email }}</span>
+        <span class="truncate font-semibold text-white">{{ user.name }}</span>
+        <span v-if="showEmail" class="truncate text-[11px] text-white/70">{{ user.email }}</span>
     </div>
 </template>

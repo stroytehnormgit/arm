@@ -4,6 +4,8 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
 import CrossIcon from '@/components/icons/CrossIcon.vue';
+import PencilIcon from '@/components/icons/PencilIcon.vue';
+import TrashIcon from '@/components/icons/TrashIcon.vue';
 
 interface User {
     id: number;
@@ -36,12 +38,11 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-// Состояние модального окна
 const isAddModalOpen = ref(false);
 const isEditModalOpen = ref(false);
 const selectedUser = ref<User | null>(null);
+const selectedItemId = ref<number | null>(null);
 
-// Форма для создания/редактирования
 const form = useForm({
     name: '',
     email: '',
@@ -52,7 +53,6 @@ const form = useForm({
     department: '' as string | null,
 });
 
-// Открытие модального окна добавления
 const openAddModal = () => {
     form.reset();
     form.role = 'employee';
@@ -61,16 +61,23 @@ const openAddModal = () => {
     isAddModalOpen.value = true;
 };
 
-// Закрытие модальных окон
 const closeModals = () => {
     isAddModalOpen.value = false;
     isEditModalOpen.value = false;
     selectedUser.value = null;
+    selectedItemId.value = null;
     form.reset();
 };
 
-// Открытие модального окна редактирования
-const openEditModal = (user: User) => {
+const selectItem = (itemId: number) => {
+    selectedItemId.value = selectedItemId.value === itemId ? null : itemId;
+};
+
+const openEditModal = () => {
+    if (!selectedItemId.value) return;
+    const user = props.users.data.find(u => u.id === selectedItemId.value);
+    if (!user) return;
+    
     selectedUser.value = user;
     form.name = user.name;
     form.email = user.email;
@@ -82,12 +89,12 @@ const openEditModal = (user: User) => {
     isEditModalOpen.value = true;
 };
 
-// Сохранение пользователя
 const submitForm = () => {
     if (selectedUser.value) {
         form.put(`/users/${selectedUser.value.id}`, {
             onSuccess: () => {
                 closeModals();
+                selectedItemId.value = null;
             },
         });
     } else {
@@ -99,24 +106,25 @@ const submitForm = () => {
     }
 };
 
-// Удаление пользователя
-const deleteUser = (userId: number) => {
-    if (confirm('Вы уверены, что хотите удалить этого пользователя?')) {
-        form.delete(`/users/${userId}`, {
+const deleteUser = () => {
+    if (!selectedItemId.value) return;
+    const user = props.users.data.find(u => u.id === selectedItemId.value);
+    const userName = user?.name || user?.email || 'этого пользователя';
+    
+    if (confirm(`Вы уверены, что хотите удалить пользователя "${userName}"?`)) {
+        form.delete(`/users/${selectedItemId.value}`, {
             onSuccess: () => {
-                // Форма уже очистится автоматически
+                selectedItemId.value = null;
             },
         });
     }
 };
 
-// Получение названия роли на русском
 const getRoleName = (roles: Array<{ name: string }>) => {
     if (roles.length === 0) return 'Нет роли';
     return roles[0].name === 'admin' ? 'Администратор' : 'Сотрудник';
 };
 
-// Фильтрация поиска
 const searchForm = useForm({
     search: props.filters.search || '',
 });
@@ -140,7 +148,6 @@ const clearSearch = () => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl">
-            <!-- Кнопка добавления и поиск -->
             <div class="flex gap-4 items-center mb-4">
                 <button 
                     @click="openAddModal" 
@@ -150,8 +157,31 @@ const clearSearch = () => {
                     <CrossIcon class="w-5 h-5" />
                     ДОБАВИТЬ ПОЛЬЗОВАТЕЛЯ
                 </button>
+                <button 
+                    @click="openEditModal"
+                    :disabled="!selectedItemId"
+                    :class="[
+                        'min-h-[83px] rounded-xl px-4 py-3 text-white font-medium flex items-center justify-center gap-2 whitespace-nowrap',
+                        selectedItemId ? 'cursor-pointer hover:opacity-90' : 'opacity-50 cursor-not-allowed'
+                    ]"
+                    style="background-color: rgba(255, 253, 253, 0.2);"
+                >
+                    <PencilIcon class="w-5 h-5" />
+                    РЕДАКТИРОВАТЬ
+                </button>
+                <button 
+                    @click="deleteUser"
+                    :disabled="!selectedItemId"
+                    :class="[
+                        'min-h-[83px] rounded-xl px-4 py-3 text-white font-medium flex items-center justify-center gap-2 whitespace-nowrap',
+                        selectedItemId ? 'cursor-pointer hover:opacity-90' : 'opacity-50 cursor-not-allowed'
+                    ]"
+                    style="background-color: rgba(220, 38, 38, 0.2);"
+                >
+                    <TrashIcon class="w-6 h-6 sm:w-8 sm:h-8 text-[#FFB800]" />
+                    <span class="hidden sm:inline">УДАЛИТЬ</span>
+                </button>
 
-                <!-- Поиск -->
                 <div class="flex gap-2 flex-1">
                     <input 
                         v-model="searchForm.search"
@@ -176,23 +206,19 @@ const clearSearch = () => {
                 </div>
             </div>
 
-            <!-- Таблица пользователей -->
             <div class="flex-1 rounded-xl border-gray-400 overflow-hidden">
                 <div class="overflow-x-auto">
                     <div>
-                        <!-- Заголовок таблицы -->
                         <div class="bg-[#FFB800] rounded-2xl px-4 py-3">
-                            <div class="grid grid-cols-6 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
+                            <div class="grid grid-cols-5 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
                                 <div>Имя</div>
                                 <div>Email</div>
                                 <div>Роль</div>
                                 <div>Отдел</div>
                                 <div>Дата создания</div>
-                                <div>Действия</div>
                             </div>
                         </div>
                         
-                        <!-- Строки данных -->
                         <div v-if="props.users.data.length === 0" class="text-center py-8 text-white">
                             Нет пользователей для отображения
                         </div>
@@ -200,13 +226,15 @@ const clearSearch = () => {
                             <div 
                                 v-for="(user, index) in props.users.data" 
                                 :key="user.id" 
+                                @click="selectItem(user.id)"
                                 :class="[
                                     index % 2 === 0 ? 'bg-[#F1EFF4]' : 'bg-[#F1EFF4BF]',
+                                    selectedItemId === user.id ? 'ring-4 ring-[#FFB800] ring-opacity-60 shadow-lg' : 
                                     'hover:ring-2 hover:ring-[#FFB800] hover:ring-opacity-30'
                                 ]" 
-                                class="rounded-2xl px-4 py-3 table-row-spacing mb-3 transition-all"
+                                class="rounded-2xl px-4 py-3 table-row-spacing mb-3 cursor-pointer transition-all"
                             >
-                                <div class="grid grid-cols-6 gap-4 text-[#080D6E] table-row-align">
+                                <div class="grid grid-cols-5 gap-4 text-[#080D6E] table-row-align">
                                     <div>{{ user.name }}</div>
                                     <div>{{ user.email }}</div>
                                     <div>
@@ -216,29 +244,12 @@ const clearSearch = () => {
                                     </div>
                                     <div>{{ user.department || '—' }}</div>
                                     <div>{{ new Date(user.created_at).toLocaleDateString('ru-RU') }}</div>
-                                    <div>
-                                        <div class="flex gap-2">
-                                            <button 
-                                                @click="openEditModal(user)"
-                                                class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-xs"
-                                            >
-                                                Редактировать
-                                            </button>
-                                            <button 
-                                                @click="deleteUser(user.id)"
-                                                class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors text-xs"
-                                            >
-                                                Удалить
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Пагинация -->
                 <div v-if="props.users.links.length > 3" class="flex justify-center items-center gap-2 mt-4">
                     <template v-for="(link, index) in props.users.links" :key="index">
                         <a 
@@ -260,7 +271,6 @@ const clearSearch = () => {
             </div>
         </div>
 
-        <!-- Модальное окно добавления/редактирования -->
         <div 
             v-if="isAddModalOpen || isEditModalOpen" 
             class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4"
@@ -342,8 +352,6 @@ const clearSearch = () => {
                             <option value="admin">Администратор</option>
                         </select>
                     </div>
-
-                    <!-- Разряд (устарело) убран из UI -->
 
                     <div>
                         <label class="block text-[#080D6E] text-sm font-medium mb-2">Отдел</label>

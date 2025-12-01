@@ -1,5 +1,5 @@
 <template>
-    <SvgIcon src="/icons/otchet.svg" alt="Формировать отчет" />
+    <SvgIcon src="/icons/otchet.png" alt="Формировать отчет" />
 </template>
 
 <script setup lang="ts">

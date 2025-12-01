@@ -10,6 +10,8 @@ use App\Services\DepartmentAccessService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Spatie\Activitylog\Models\Activity;
 use Inertia\Inertia;
 
 class PlannedListController extends Controller
@@ -274,6 +276,15 @@ class PlannedListController extends Controller
             }
 
             DB::commit();
+            
+            activity()
+                ->causedBy($request->user())
+                ->withProperties([
+                    'planned_items_count' => $plannedItems->count(),
+                    'active_items_created' => ActiveList::whereIn('code', $plannedItems->pluck('code'))->count(),
+                ])
+                ->log('Утвержден планируемый перечень');
+            
             return redirect()->back()->with('success', 'Перечень успешно утвержден. Все записи перенесены в действующий перечень с этапом "ТЗ"');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -311,6 +322,14 @@ class PlannedListController extends Controller
         if ($items->isEmpty()) {
             return redirect()->back()->with('error', 'Записи не найдены');
         }
+
+        activity()
+            ->causedBy($request->user())
+            ->withProperties([
+                'exported_items_count' => $items->count(),
+                'exported_ids' => $ids,
+            ])
+            ->log('Экспортирован планируемый перечень в Word');
 
         $grouped = $items->groupBy('development_name');
 

@@ -1,5 +1,5 @@
 <template>
-    <SvgIcon src="/icons/lamp.svg" alt="Планируемый перечень" />
+    <SvgIcon src="/icons/lamp.png" alt="Планируемый перечень" />
 </template>
 
 <script setup lang="ts">

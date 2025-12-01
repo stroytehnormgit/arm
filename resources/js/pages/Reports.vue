@@ -65,7 +65,6 @@ const tabs = [
 
 const switchTab = (tabId: string) => {
     activeTab.value = tabId;
-    // Обновляем URL с параметром tab
     const url = new URL(window.location.href);
     url.searchParams.set('tab', tabId);
     window.history.pushState({}, '', url.toString());
@@ -85,7 +84,6 @@ const navigateTabs = (direction: 'left' | 'right') => {
     switchTab(activeTab.value);
 };
 
-// Реактивные переменные для фильтров
 const filters = ref({
     name: props.filters.name || '',
     etap: props.filters.etap || '',
@@ -93,7 +91,6 @@ const filters = ref({
     period: props.filters.period || '',
 });
 
-// Форма для отправки фильтров
 const filterForm = useForm({
     name: filters.value.name,
     etap: filters.value.etap,
@@ -101,7 +98,6 @@ const filterForm = useForm({
     period: filters.value.period,
 });
 
-// Отправка фильтров при изменении
 const applyFilters = () => {
     const params = new URLSearchParams();
     params.set('tab', activeTab.value);
@@ -116,7 +112,6 @@ const applyFilters = () => {
     });
 };
 
-// Отслеживание изменений фильтров
 watch(filters, () => {
     filterForm.name = filters.value.name;
     filterForm.etap = filters.value.etap;
@@ -131,7 +126,6 @@ watch(filters, () => {
 
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl">
-            <!-- Фильтры -->
             <div class="grid gap-4 rounded-xl p-4 filter-block mb-4">
                 <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                     <div>
@@ -175,16 +169,12 @@ watch(filters, () => {
                 </div>
             </div>
 
-            <!-- Блок с табами, стрелками и кнопками на одном уровне -->
             <div class="flex items-center justify-between gap-4 mb-4 w-full">
-                <!-- Левая часть: стрелки и табы -->
                 <div class="flex items-center gap-4 flex-1">
-                    <!-- Стрелка влево -->
                     <button @click="navigateTabs('left')" class="w-12 h-12 rounded-full bg-[#FFB800] flex items-center justify-center flex-shrink-0 hover:bg-[#E6A600] transition-colors">
                         <ArrowLeftIcon className="w-6 h-6" style="color: #4A427B;" />
                     </button>
                     
-                    <!-- Табы -->
                     <div class="flex gap-2 flex-1">
                         <button 
                             v-for="tab in tabs" 
@@ -202,13 +192,11 @@ watch(filters, () => {
                         </button>
                     </div>
                     
-                    <!-- Стрелка вправо -->
                     <button @click="navigateTabs('right')" class="w-12 h-12 rounded-full bg-[#FFB800] flex items-center justify-center flex-shrink-0 hover:bg-[#E6A600] transition-colors">
                         <ArrowRightIcon className="w-6 h-6" style="color: #4A427B;" />
                     </button>
                 </div>
 
-                <!-- Правая часть: кнопки действий -->
                 <div class="flex gap-4 flex-1">
                     <button class="flex-1 px-6 py-3 rounded-xl text-white font-medium flex items-center justify-center gap-2" style="background-color: rgba(255, 253, 253, 0.2);height: 83px;">
                         <OtchetIcon class="w-5 h-5" />
@@ -221,11 +209,9 @@ watch(filters, () => {
                 </div>
             </div>
 
-            <!-- Таблица отчетов -->
             <div class="flex-1 rounded-xl border-gray-400 overflow-hidden">
                 <div class="overflow-x-auto">
                     <div>
-                        <!-- Заголовок таблицы для "Этапы за период" -->
                         <div v-if="activeTab === 'stages'" class="bg-[#FFB800] rounded-2xl px-4 py-3">
                             <div class="grid grid-cols-6 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
                                 <div>№ п/п (шифр)</div>
@@ -237,7 +223,6 @@ watch(filters, () => {
                             </div>
                         </div>
                         
-                        <!-- Заголовок таблицы для "Календарный план" -->
                         <div v-else class="bg-[#FFB800] rounded-2xl px-4 py-3">
                             <div class="grid grid-cols-5 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
                                 <div>№</div>
@@ -248,7 +233,6 @@ watch(filters, () => {
                             </div>
                         </div>
                         
-                        <!-- Строки данных для "Этапы за период" -->
                         <div v-if="activeTab === 'stages'">
                             <div v-if="props.reports.data.length === 0" class="text-center py-8 text-white">
                                 Нет данных для отображения
@@ -267,7 +251,6 @@ watch(filters, () => {
                             </div>
                         </div>
                         
-                        <!-- Строки данных для "Календарный план" -->
                         <div v-else>
                             <div v-if="props.calendarPlans.data.length === 0" class="text-center py-8 text-white">
                                 Нет данных для отображения

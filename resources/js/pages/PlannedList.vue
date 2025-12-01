@@ -380,72 +380,75 @@ const deleteSelectedItems = () => {
     <Head title="Планируемый перечень" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl">
-            <!-- Кнопки действий -->
-            <div class="flex gap-4 rounded-xl mb-4">
-                <button @click="openAddModal" class="flex-1 min-h-[83px] rounded-xl px-4 py-3 text-white font-medium flex items-center justify-center gap-2" style="background-color: rgba(255, 253, 253, 0.2);">
-                    <CrossIcon class="w-5 h-5" />
-                    ДОБАВИТЬ
+        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl">
+            <div class="flex flex-wrap gap-2 sm:gap-4 rounded-xl mb-4">
+                <button @click="openAddModal" class="flex-1 min-w-[120px] min-h-[83px] rounded-xl px-2 sm:px-4 py-3 text-white font-medium flex items-center justify-center gap-2 text-sm sm:text-base" style="background-color: rgba(255, 253, 253, 0.2);">
+                    <CrossIcon class="w-6 h-6 sm:w-7 sm:h-7" />
+                    <span class="hidden sm:inline">ДОБАВИТЬ</span>
+                    <span class="sm:hidden">ДОБАВИТЬ</span>
                 </button>
                 <button 
                     @click="openEditModal"
                     :disabled="!selectedItemId"
                     :class="[
-                        'flex-1 min-h-[83px] rounded-xl px-4 py-3 text-white font-medium flex items-center justify-center gap-2',
+                        'flex-1 min-w-[120px] min-h-[83px] rounded-xl px-2 sm:px-4 py-3 text-white font-medium flex items-center justify-center gap-2 text-sm sm:text-base',
                         selectedItemId ? 'cursor-pointer hover:opacity-90' : 'opacity-50 cursor-not-allowed'
                     ]"
                     style="background-color: rgba(255, 253, 253, 0.2);"
                 >
-                    <PencilIcon class="w-5 h-5" />
-                    РЕДАКТИРОВАТЬ
+                    <PencilIcon class="w-6 h-6 sm:w-7 sm:h-7" />
+                    <span class="hidden sm:inline">РЕДАКТИРОВАТЬ</span>
+                    <span class="sm:hidden">РЕДАКТ.</span>
                 </button>
                 <button 
                     @click="previewWord"
                     :disabled="selectedItemsForGenerate.length === 0"
                     :class="[
-                        'flex-1 min-h-[83px] rounded-xl px-4 py-3 text-white font-medium flex items-center justify-center gap-2',
+                        'flex-1 min-w-[120px] min-h-[83px] rounded-xl px-2 sm:px-4 py-3 text-white font-medium flex items-center justify-center gap-2 text-sm sm:text-base',
                         selectedItemsForGenerate.length > 0 ? 'cursor-pointer hover:opacity-90' : 'opacity-50 cursor-not-allowed'
                     ]"
                     style="background-color: rgba(255, 253, 253, 0.2);"
                 >
-                    <EyeIcon class="w-5 h-5" />
-                    ПРЕДВАРИТЕЛЬНЫЙ ПРОСМОТР
+                    <EyeIcon class="w-6 h-6 sm:w-7 sm:h-7" />
+                    <span class="hidden lg:inline">ПРЕДВАРИТЕЛЬНЫЙ ПРОСМОТР</span>
+                    <span class="hidden sm:inline lg:hidden">ПРОСМОТР</span>
+                    <span class="sm:hidden">ПРОСМ.</span>
                 </button>
                 <button 
                     v-if="isAdmin"
                     @click="openGenerateModal"
                     :class="[
-                        'flex-1 min-h-[83px] rounded-xl px-4 py-3 text-white font-medium flex items-center justify-center gap-2 cursor-pointer hover:opacity-90'
+                        'flex-1 min-w-[120px] min-h-[83px] rounded-xl px-2 sm:px-4 py-3 text-white font-medium flex items-center justify-center gap-2 cursor-pointer hover:opacity-90 text-sm sm:text-base'
                     ]"
                     style="background-color: rgba(34, 197, 94, 0.2);"
                     title="Сформировать перечень: перенести все записи из планируемого перечня в действующий"
                 >
-                    <ArrowIcon class="w-5 h-5" />
-                    ФОРМИРОВАТЬ ПЕРЕЧЕНЬ
+                    <ArrowIcon class="w-6 h-6 sm:w-7 sm:h-7" />
+                    <span class="hidden lg:inline">ФОРМИРОВАТЬ ПЕРЕЧЕНЬ</span>
+                    <span class="hidden sm:inline lg:hidden">ФОРМИРОВАТЬ</span>
+                    <span class="sm:hidden">ФОРМ.</span>
                 </button>
                 <button 
                     v-if="isAdmin"
                     @click="deleteSelectedItems"
                     :disabled="selectedItemsForGenerate.length === 0 && !selectedItemId"
                     :class="[
-                        'flex-1 min-h-[83px] rounded-xl px-4 py-3 text-white font-medium flex items-center justify-center gap-2',
+                        'flex-1 min-w-[120px] min-h-[83px] rounded-xl px-2 sm:px-4 py-3 text-white font-medium flex items-center justify-center gap-2 text-sm sm:text-base',
                         (selectedItemsForGenerate.length > 0 || selectedItemId) ? 'cursor-pointer hover:opacity-90' : 'opacity-50 cursor-not-allowed'
                     ]"
                     style="background-color: rgba(220, 38, 38, 0.2);"
                     title="Удалить выбранную запись или выбранные записи"
                 >
-                    <TrashIcon class="w-7 h-7 text-[#FFB800]" />
-                    УДАЛИТЬ
+                    <TrashIcon class="w-6 h-6 sm:w-8 sm:h-8 text-[#FFB800]" />
+                    <span class="hidden sm:inline">УДАЛИТЬ</span>
                 </button>
             </div>
 
-            <!-- Таблица данных -->
             <div class="flex-1 rounded-xl border-gray-400 overflow-hidden">
                 <div class="overflow-x-auto">
                     <div>
-                        <!-- Заголовок таблицы -->
                         <div class="bg-[#FFB800] rounded-2xl px-4 py-3">
-                            <div class="grid grid-cols-12 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
+                            <div class="grid grid-cols-11 gap-4 font-semibold table-header-text table-header-container table-header-dividers">
                                 <div></div>
                                 <div>№ п/п (шифр)</div>
                                 <div>Наименование разработки</div>
@@ -457,11 +460,9 @@ const deleteSelectedItems = () => {
                                 <div>Наименование организаций, выполняющих работу</div>
                                 <div>Ответственный отдел</div>
                                 <div>Разрабатывается впервые или взамен</div>
-                                <div>Действия</div>
                             </div>
                         </div>
                         
-                        <!-- Строки данных -->
                         <div v-if="props.plannedList.data.length === 0" class="text-center py-8 text-white">
                             Нет данных для отображения
                         </div>
@@ -478,14 +479,13 @@ const deleteSelectedItems = () => {
                                 ]" 
                                 class="rounded-2xl px-4 py-3 table-row-spacing mb-3 cursor-pointer transition-all"
                             >
-                                <div class="grid grid-cols-12 gap-4 text-[#080D6E] table-row-align">
-                                    <!-- Чекбокс для множественного выбора -->
+                                <div class="grid grid-cols-11 gap-4 text-[#080D6E] table-row-align">
                                     <div class="flex items-center justify-center">
                                         <input 
                                             type="checkbox"
                                             :checked="selectedItemsIds.has(item.id)"
                                             @click.stop="toggleItemForGenerate(item.id)"
-                                            class="w-5 h-5 text-[#FFB800] rounded focus:ring-[#FFB800] focus:ring-2"
+                                            class="w-4 h-4 text-[#FFB800] rounded focus:ring-[#FFB800] focus:ring-2"
                                         />
                                     </div>
                                     <div>{{ item.code }}</div>
@@ -498,19 +498,6 @@ const deleteSelectedItems = () => {
                                     <div>{{ item.organizations }}</div>
                                     <div>{{ item.department }}</div>
                                     <div>{{ item.development_type }}</div>
-                                    <!-- Кнопка удаления (только для администратора) -->
-                                    <div v-if="isAdmin" class="flex items-center justify-center">
-                                        <button
-                                            @click.stop="deleteItem(item.id)"
-                                            class="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-lg transition-colors"
-                                            title="Удалить запись"
-                                        >
-                                            <TrashIcon class="w-5 h-5" />
-                                        </button>
-                                    </div>
-                                    <div v-else class="flex items-center justify-center">
-                                        <!-- Пустая ячейка для не-администраторов -->
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -519,7 +506,6 @@ const deleteSelectedItems = () => {
             </div>
         </div>
 
-        <!-- Модальное окно добавления предложения -->
         <AddProposalModal 
             :is-open="isAddModalOpen" 
             :stages="props.stages || []"
@@ -527,7 +513,6 @@ const deleteSelectedItems = () => {
             @close="closeAddModal" 
         />
         
-        <!-- Модальное окно редактирования предложения -->
         <AddProposalModal 
             :is-open="isEditModalOpen" 
             :edit-item="selectedItem"
@@ -536,7 +521,6 @@ const deleteSelectedItems = () => {
             @close="closeEditModal" 
         />
         
-        <!-- Модальное окно детальной информации -->
         <PlannedListItemDetailModal 
             :is-open="isDetailModalOpen"
             :item="detailModalItem"
@@ -544,10 +528,8 @@ const deleteSelectedItems = () => {
             @close="closeDetailModal"
         />
         
-        <!-- Модальное окно формирования перечня -->
         <div v-if="isGenerateModalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4" @click="closeGenerateModal">
             <div class="bg-white rounded-2xl p-6 max-w-7xl w-full max-h-[95vh] overflow-y-auto shadow-2xl" @click.stop>
-                <!-- Заголовок -->
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-[#080D6E] text-xl font-bold">
                         формировать перечень (ВЫГРУЗИТЬ ВОРД)
@@ -557,21 +539,20 @@ const deleteSelectedItems = () => {
                     </button>
                 </div>
 
-                <!-- Таблица -->
                 <div class="overflow-x-auto mb-6 max-w-full">
-                    <table class="min-w-full border-collapse" style="font-size: 12px;">
+                    <table class="min-w-full border-collapse" style="font-size: 13px;">
                         <thead>
                             <tr class="bg-gray-200">
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">№ п/п (шифр)</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] min-w-[200px]" style="font-size: 12px;">Наименование разработки</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">Стоимость всего</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">Стоимость на 2025</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">Стоимость на 2026</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">Срок начала разработки (месяц, год)</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">Срок окончания разработки (месяц, год)</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] min-w-[250px]" style="font-size: 12px;">Наименование организаций, выполняющих работу, и номер Технического Комитета</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">Ответственный отдел</th>
-                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] min-w-[200px]" style="font-size: 12px;">Разрабатывается впервые или взамен действующих нормативных документов</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 14px;">№ п/п (шифр)</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] min-w-[200px]" style="font-size: 14px;">Наименование разработки</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 14px;">Стоимость всего</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 14px;">Стоимость на 2025</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 14px;">Стоимость на 2026</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 14px;">Срок начала разработки (месяц, год)</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 14px;">Срок окончания разработки (месяц, год)</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] min-w-[250px]" style="font-size: 14px;">Наименование организаций, выполняющих работу, и номер Технического Комитета</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] whitespace-nowrap" style="font-size: 14px;">Ответственный отдел</th>
+                                <th class="border border-gray-400 px-3 py-2 text-left font-semibold text-[#080D6E] min-w-[200px]" style="font-size: 14px;">Разрабатывается впервые или взамен действующих нормативных документов</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -581,23 +562,22 @@ const deleteSelectedItems = () => {
                                     :key="item.id"
                                     :class="itemIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'"
                                 >
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">{{ item.code || '' }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E]" style="font-size: 12px;">{{ item.development_name || '' }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">{{ item.total_cost != null ? item.total_cost.toLocaleString('ru-RU') : '' }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">{{ item.cost_2025 != null ? item.cost_2025.toLocaleString('ru-RU') : '' }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">{{ item.cost_2026 != null ? item.cost_2026.toLocaleString('ru-RU') : '' }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">{{ formatDateForTable(item.development_start || item.start_date) }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 12px;">{{ formatDateForTable(item.development_end || item.end_date) }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E]" style="font-size: 12px;">{{ item.organizations || '' }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E]" style="font-size: 12px;">{{ item.department || '' }}</td>
-                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E]" style="font-size: 12px;">{{ item.development_type || '' }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 13px;">{{ item.code || '' }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E]" style="font-size: 13px;">{{ item.development_name || '' }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 13px;">{{ item.total_cost != null ? item.total_cost.toLocaleString('ru-RU') : '' }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 13px;">{{ item.cost_2025 != null ? item.cost_2025.toLocaleString('ru-RU') : '' }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 13px;">{{ item.cost_2026 != null ? item.cost_2026.toLocaleString('ru-RU') : '' }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 13px;">{{ formatDateForTable(item.development_start || item.start_date) }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E] whitespace-nowrap" style="font-size: 13px;">{{ formatDateForTable(item.development_end || item.end_date) }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E]" style="font-size: 13px;">{{ item.organizations || '' }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E]" style="font-size: 13px;">{{ item.department || '' }}</td>
+                                    <td class="border border-gray-400 px-3 py-2 text-[#080D6E]" style="font-size: 13px;">{{ item.development_type || '' }}</td>
                                 </tr>
                             </template>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- Кнопка экспорта -->
                 <div class="flex justify-end gap-4 pt-6 border-t border-gray-300">
                     <button 
                         type="button"
